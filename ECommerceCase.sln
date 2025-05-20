@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceCase.UI", "Frontends\ECommerceCase.UI\ECommerceCase.UI.csproj", "{D90D3D37-256C-4954-BB3C-97A6092E1003}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GateawayService", "GateAwayService\GateawayService.csproj", "{6F767765-220F-4897-AE30-4FE700F94616}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{D90D3D37-256C-4954-BB3C-97A6092E1003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D90D3D37-256C-4954-BB3C-97A6092E1003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D90D3D37-256C-4954-BB3C-97A6092E1003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F767765-220F-4897-AE30-4FE700F94616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F767765-220F-4897-AE30-4FE700F94616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F767765-220F-4897-AE30-4FE700F94616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F767765-220F-4897-AE30-4FE700F94616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

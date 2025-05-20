@@ -1,0 +1,56 @@
+
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/orders",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5000
+                }
+            ],
+            "UpstreamPathTemplate": "/order",
+            "UpstreamHttpMethod": [ "POST" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/stocks",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5248
+                }
+            ],
+            "UpstreamPathTemplate": "/stock",
+            "UpstreamHttpMethod": [ "GET", "POST" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/stocks/{productId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5248
+                }
+            ],
+            "UpstreamPathTemplate": "/stock/{productId}",
+            "UpstreamHttpMethod": [ "GET" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/notifications",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5065
+                }
+            ],
+            "UpstreamPathTemplate": "/notification",
+            "UpstreamHttpMethod": [ "POST" ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:9000"
+    }
+}
