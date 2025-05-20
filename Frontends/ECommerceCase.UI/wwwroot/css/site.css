@@ -1,80 +1,31 @@
-html, body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100%;
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    background-color: #f8f9fa;
+  margin-bottom: 60px;
 }
 
-main {
-    flex: 1;
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
 }
 
-.footer {
-    padding: 1rem 0;
-    background-color: #f8f9fa;
-}
-
-/* Özel tasarým elemanlarý */
-.card {
-    border-radius: 0.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    }
-
-.shadow-sm {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-}
-
-.shadow {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-
-.btn {
-    border-radius: 0.3rem;
-    padding: 0.5rem 1rem;
-}
-
-.btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-}
-
-    .btn-primary:hover {
-        background-color: #0b5ed7;
-        border-color: #0a58ca;
-    }
-
-.btn-outline-secondary {
-    color: #6c757d;
-    border-color: #6c757d;
-}
-
-    .btn-outline-secondary:hover {
-        color: #fff;
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-
-.btn-outline-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-}
-
-    .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
-        border-color: #dc3545;
-    }
-
-/* Sipariþ form elemanlarý */
-.order-item {
-    border-left: 3px solid #0d6efd;
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
 }
