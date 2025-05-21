@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Cart\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Product\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Stock\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
