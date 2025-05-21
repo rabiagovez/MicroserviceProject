@@ -1,0 +1,28 @@
+@model IEnumerable<ECommerceCase.UI.Models.ProductViewModel>
+
+<h2>Product List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>@product.Stock</td>
+            <td>
+                <form method="post" asp-controller="Cart" asp-action="AddToCart">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
