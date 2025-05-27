@@ -1,0 +1,209 @@
+@model ECommerceCase.UI.Models.StockViewModel
+@{
+ViewData["Title"] = "Yeni Stok Ekle";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-3 mb-2">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-plus text-indigo-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Yeni Stok Ekle</h1>
+                    <p class="text-gray-600">Envanter sisteminize yeni bir ürün ekleyin</p>
+                </div>
+            </div>
+
+            <!-- Breadcrumb -->
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2 text-sm text-gray-500">
+                    <li><a href="#" class="hover:text-gray-700">Ana Sayfa</a></li>
+                    <li><i class="fas fa-chevron-right text-xs"></i></li>
+                    <li><a asp-action="Index" class="hover:text-gray-700">Stok Yönetimi</a></li>
+                    <li><i class="fas fa-chevron-right text-xs"></i></li>
+                    <li class="text-gray-900 font-medium">Yeni Stok Ekle</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
+            <!-- Card Header -->
+            <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-box text-indigo-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-900">Ürün Bilgileri</h2>
+                            <p class="text-sm text-gray-600">Yeni stok için detayları girin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="p-6">
+                <form asp-action="Create" method="post" class="space-y-8">
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="ModelOnly" class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm hidden"></div>
+
+                    <!-- Form Fields Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Product Name Field -->
+                        <div class="lg:col-span-2">
+                            <div class="relative">
+                                <label asp-for="ProductName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-tag text-indigo-500 mr-2"></i>Ürün Adı
+                                </label>
+                                <div class="relative rounded-lg shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-cube text-gray-400"></i>
+                                    </div>
+                                    <input asp-for="ProductName"
+                                           class="block w-full pl-10 pr-3 py-4 text-base border border-gray-300 rounded-lg 
+                                                  focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                                                  transition duration-200 ease-in-out
+                                                  placeholder-gray-400 bg-white
+                                                  hover:border-gray-400"
+                                           placeholder="Ürün adını girin (örn: Samsung Galaxy S23, iPhone 15)"
+                                           required />
+                                </div>
+                                <span asp-validation-for="ProductName" class="mt-2 text-sm text-red-600 flex items-center">
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Quantity Field -->
+                        <div class="lg:col-span-2">
+                            <div class="relative">
+                                <label asp-for="Quantity" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-sort-numeric-up text-indigo-500 mr-2"></i>Stok Miktarı
+                                </label>
+                                <div class="relative rounded-lg shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-hashtag text-gray-400"></i>
+                                    </div>
+                                    <input asp-for="Quantity"
+                                           type="number"
+                                           min="0"
+                                           step="1"
+                                           class="block w-full pl-10 pr-16 py-4 text-base border border-gray-300 rounded-lg 
+                                                  focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                                                  transition duration-200 ease-in-out
+                                                  placeholder-gray-400 bg-white
+                                                  hover:border-gray-400"
+                                           placeholder="0"
+                                           required />
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 text-sm font-medium">adet</span>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Quantity" class="mt-2 text-sm text-red-600 flex items-center">
+                                   
+                                </span>
+                                <p class="mt-2 text-sm text-gray-500">
+                                    Bu ürün için başlangıç stok miktarını girin
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-8 border-t border-gray-200 space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a asp-action="Index"
+                           class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out transform hover:scale-105">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Stok Listesine Dön
+                        </a>
+
+                        <div class="flex space-x-3">
+                            <button type="reset"
+                                    class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-200 ease-in-out">
+                                <i class="fas fa-undo mr-2"></i>
+                                Sıfırla
+                            </button>
+
+                            <button type="submit"
+                                    class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out transform hover:scale-105">
+                                <i class="fas fa-save mr-2"></i>
+                                Stoğu Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Additional Information Card -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-lightbulb text-blue-500 mt-0.5"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-blue-800">Faydalı İpuçları</h3>
+                    <div class="mt-2 text-sm text-blue-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Envanter yönetimini kolaylaştırmak için açıklayıcı ürün adları kullanın</li>
+                            <li>Envanter tutarsızlıklarını önlemek için başlangıç stok miktarlarını doğru belirleyin</li>
+                            <li>Stok miktarlarını daha sonra envanter yönetimi sayfasından güncelleyebilirsiniz</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+    // Form enhancement scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-focus first input
+        const firstInput = document.querySelector('input[asp-for="ProductName"]');
+        if (firstInput) {
+            firstInput.focus();
+        }
+
+        // Input animations and validation feedback
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-indigo-500');
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-indigo-500');
+            });
+
+            // Real-time validation feedback
+            input.addEventListener('input', function() {
+                const validationSpan = this.parentElement.parentElement.querySelector('[data-valmsg-for]');
+                if (validationSpan && this.value.trim() !== '') {
+                    validationSpan.style.display = 'none';
+                }
+            });
+        });
+
+        // Quantity input formatting
+        const quantityInput = document.querySelector('input[asp-for="Quantity"]');
+        if (quantityInput) {
+            quantityInput.addEventListener('input', function() {
+                // Remove any non-numeric characters except for the decimal point
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+    });
+</script>
+}

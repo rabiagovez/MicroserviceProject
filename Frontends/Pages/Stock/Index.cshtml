@@ -1,0 +1,122 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Stock";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Stock Service API</h1>
+
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Get All Stock</h2>
+        <button id="getAllStock" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Get All Stock
+        </button>
+        <div id="allStockResult" class="mt-4 p-4 bg-gray-100 rounded hidden"></div>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Get Stock by Product ID</h2>
+        <input type="text" id="productIdInput" placeholder="Enter Product ID" class="border p-2 mr-2 rounded">
+        <button id="getStockById" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Get Stock
+        </button>
+        <div id="stockByIdResult" class="mt-4 p-4 bg-gray-100 rounded hidden"></div>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Create Product Stock</h2>
+        <input type="text" id="createProductName" placeholder="Product Name" class="border p-2 mr-2 rounded">
+        <input type="number" id="createProductInitialStock" placeholder="Initial Stock" class="border p-2 mr-2 rounded">
+        <button id="createProductStock" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Create Stock
+        </button>
+        <div id="createStockResult" class="mt-4 p-4 bg-gray-100 rounded hidden"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('getAllStock').addEventListener('click', function() {
+            fetch('/api/Stock')
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('allStockResult');
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    const resultDiv = document.getElementById('allStockResult');
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = '<p class="text-red-500">Error: ' + error + '</p>';
+                    console.error('Error:', error);
+                });
+        });
+
+        document.getElementById('getStockById').addEventListener('click', function() {
+            const productId = document.getElementById('productIdInput').value;
+            if (!productId) {
+                alert('Please enter a Product ID');
+                return;
+            }
+            fetch('/api/Stock/' + productId)
+                .then(response => {
+                    if (!response.ok) {
+                         throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const resultDiv = document.getElementById('stockByIdResult');
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                     const resultDiv = document.getElementById('stockByIdResult');
+                    resultDiv.classList.remove('hidden');
+                    resultDiv.innerHTML = '<p class="text-red-500">Error: ' + error + '</p>';
+                    console.error('Error:', error);
+                });
+        });
+
+         document.getElementById('createProductStock').addEventListener('click', function() {
+            const productName = document.getElementById('createProductName').value;
+            const initialStock = parseInt(document.getElementById('createProductInitialStock').value);
+
+            if (!productName || isNaN(initialStock)) {
+                alert('Please enter valid Product Name and Initial Stock');
+                return;
+            }
+
+            const createCommand = {
+                 ProductName: productName,
+                 InitialStock: initialStock
+            };
+
+            fetch('/api/Stock', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(createCommand),
+            })
+            .then(response => {
+                if (!response.ok) {
+                     throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const resultDiv = document.getElementById('createStockResult');
+                resultDiv.classList.remove('hidden');
+                resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch((error) => {
+                const resultDiv = document.getElementById('createStockResult');
+                resultDiv.classList.remove('hidden');
+                resultDiv.innerHTML = '<p class="text-red-500">Error: ' + error + '</p>';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+} 
