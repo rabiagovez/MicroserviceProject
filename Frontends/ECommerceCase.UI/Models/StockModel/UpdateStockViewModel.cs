@@ -1,6 +1,6 @@
 namespace ECommerceCase.UI.Models;
 
-public class AddStockViewModel
+public class UpdateStockViewModel
 {
     public string ProductId { get; set; }
     public string Name { get; set; }

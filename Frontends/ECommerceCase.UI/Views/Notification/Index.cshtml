@@ -1,0 +1,72 @@
+@model List<ECommerceCase.UI.Models.NotificationViewModel>
+@{
+    ViewData["Title"] = "Bildirimler";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-3">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-bell text-indigo-600 text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Bildirimler</h1>
+                    <p class="text-gray-600">Sistem bildirimleri</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden">
+            <div class="divide-y divide-gray-200">
+                @if (!Model.Any())
+                {
+                    <div class="p-8 text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bell-slash text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Bildirim Bulunamadı</h3>
+                        <p class="text-gray-500">Henüz hiç bildiriminiz bulunmuyor.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var notification in Model.OrderByDescending(n => n.CreatedAt))
+                    {
+                        <div class="p-6 hover:bg-gray-50 transition duration-150 ease-in-out">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-100">
+                                        <i class="fas fa-bell text-blue-500"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium text-gray-900">
+                                            @notification.BuyerId
+                                        </p>
+                                        <span class="text-sm text-gray-500">
+                                            @notification.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                                        </span>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        @notification.Message
+                                    </p>
+                                    <div class="mt-2">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                            Sipariş ID: @notification.OrderId
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div> 

@@ -4,9 +4,10 @@ namespace ECommerceCase.UI.Models
 {
     public class StockViewModel
     {
-        public string Id { get; set; }
-        public string ProductName { get; set; }
-        public int Quantity { get; set; }
+        public Guid Id { get; set; }
+        public string ProductId { get; set; }
+        public string Name { get; set; }
+        public int Stock { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

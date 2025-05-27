@@ -59,14 +59,14 @@ ViewData["Title"] = "Yeni Stok Ekle";
                         <!-- Product Name Field -->
                         <div class="lg:col-span-2">
                             <div class="relative">
-                                <label asp-for="ProductName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label asp-for="Name" class="block text-sm font-semibold text-gray-700 mb-2">
                                     <i class="fas fa-tag text-indigo-500 mr-2"></i>Ürün Adı
                                 </label>
                                 <div class="relative rounded-lg shadow-sm">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fas fa-cube text-gray-400"></i>
                                     </div>
-                                    <input asp-for="ProductName"
+                                    <input asp-for="Name"
                                            class="block w-full pl-10 pr-3 py-4 text-base border border-gray-300 rounded-lg 
                                                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
                                                   transition duration-200 ease-in-out
@@ -74,24 +74,24 @@ ViewData["Title"] = "Yeni Stok Ekle";
                                                   hover:border-gray-400"
                                            placeholder="Ürün adını girin (örn: Samsung Galaxy S23, iPhone 15)"
                                            required/>
-                                    <span asp-validation-for="ProductName" class="mt-2 text-sm text-red-600 flex items-center">
+                                </div>
+                                <span asp-validation-for="Name" class="mt-2 text-sm text-red-600 flex items-center">
 
                                 </span>
-                                </div>
                             </div>
                         </div>
 
                         <!-- Quantity Field -->
                         <div class="lg:col-span-2">
                             <div class="relative">
-                                <label asp-for="Quantity" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label asp-for="Stock" class="block text-sm font-semibold text-gray-700 mb-2">
                                     <i class="fas fa-sort-numeric-up text-indigo-500 mr-2"></i>Stok Miktarı
                                 </label>
                                 <div class="relative rounded-lg shadow-sm">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fas fa-hashtag text-gray-400"></i>
                                     </div>
-                                    <input asp-for="Quantity"
+                                    <input asp-for="Stock"
                                            type="number"
                                            min="0"
                                            step="1"
@@ -106,7 +106,7 @@ ViewData["Title"] = "Yeni Stok Ekle";
                                         <span class="text-gray-500 text-sm font-medium">adet</span>
                                     </div>
                                 </div>
-                                <span asp-validation-for="Quantity" class="mt-2 text-sm text-red-600 flex items-center">
+                                <span asp-validation-for="Stock" class="mt-2 text-sm text-red-600 flex items-center">
 
                                 </span>
                                 <p class="mt-2 text-sm text-gray-500">
