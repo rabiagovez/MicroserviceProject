@@ -1,4 +1,4 @@
-@model ECommerceCase.UI.Models.StockViewModel
+@model ECommerceCase.UI.Models.AddStockViewModel
 @{
 ViewData["Title"] = "Yeni Stok Ekle";
 }
@@ -73,10 +73,11 @@ ViewData["Title"] = "Yeni Stok Ekle";
                                                   placeholder-gray-400 bg-white
                                                   hover:border-gray-400"
                                            placeholder="Ürün adını girin (örn: Samsung Galaxy S23, iPhone 15)"
-                                           required />
-                                </div>
-                                <span asp-validation-for="ProductName" class="mt-2 text-sm text-red-600 flex items-center">
+                                           required/>
+                                    <span asp-validation-for="ProductName" class="mt-2 text-sm text-red-600 flex items-center">
+
                                 </span>
+                                </div>
                             </div>
                         </div>
 
@@ -100,13 +101,13 @@ ViewData["Title"] = "Yeni Stok Ekle";
                                                   placeholder-gray-400 bg-white
                                                   hover:border-gray-400"
                                            placeholder="0"
-                                           required />
+                                           required/>
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500 text-sm font-medium">adet</span>
                                     </div>
                                 </div>
                                 <span asp-validation-for="Quantity" class="mt-2 text-sm text-red-600 flex items-center">
-                                   
+
                                 </span>
                                 <p class="mt-2 text-sm text-gray-500">
                                     Bu ürün için başlangıç stok miktarını girin

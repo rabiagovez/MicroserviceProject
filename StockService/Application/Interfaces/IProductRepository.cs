@@ -9,5 +9,6 @@ namespace StockService.Application.Interfaces
         Task<Product?> GetByProductIdAsync(string productId);
         Task AddAsync(Product product);
         Task SaveChangesAsync();
+        Task DeleteAsync(Product product);
     }
 }

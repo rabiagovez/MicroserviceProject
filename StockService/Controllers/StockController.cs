@@ -36,5 +36,20 @@ namespace StockService.Controllers
             var id = await _mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { productId = command.ProductId }, new { Id = id });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteProductCommand(id));
+                return Ok();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound($"Product with ID {id} not found.");
+            }
+        }
+
     }
 }

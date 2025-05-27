@@ -41,5 +41,12 @@ namespace StockService.Infrastructure.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        
+
+        public Task DeleteAsync(Product product)
+        {
+             _context.Products.Remove(product);
+                return _context.SaveChangesAsync();
+        }
     }
 }

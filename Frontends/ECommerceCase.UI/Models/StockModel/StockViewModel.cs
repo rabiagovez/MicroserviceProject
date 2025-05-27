@@ -4,7 +4,7 @@ namespace ECommerceCase.UI.Models
 {
     public class StockViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public DateTime LastUpdated { get; set; }
