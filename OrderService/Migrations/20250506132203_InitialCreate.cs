@@ -17,6 +17,7 @@ namespace OrderService.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BuyerId = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>

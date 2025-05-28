@@ -3,6 +3,22 @@
     ViewData["Title"] = "Sipariş Yönetimi";
 }
 
+<!-- Debug Information -->
+@if (Model != null)
+{
+    <div class="hidden">
+        <p>Total Orders: @Model.Count</p>
+        @foreach (var order in Model)
+        {
+            <p>Order ID: @order.OrderId, BuyerId: @order.BuyerId, Items Count: @(order.Items?.Count ?? 0)</p>
+            @foreach (var item in order.Items ?? new List<OrderItemViewModel>())
+            {
+                <p>Item: @item.ProductName, Quantity: @item.Quantity</p>
+            }
+        }
+    </div>
+}
+
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header Section -->
@@ -36,7 +52,7 @@
                     <a asp-action="Create"
                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out transform hover:scale-105">
                         <i class="fas fa-plus mr-2"></i>
-                        Yeni Sipariş Oluştur
+                        Yeni Sipariş Ekle
                     </a>
                 </div>
             </div>
@@ -53,7 +69,7 @@
                     </div>
                     <div class="ml-4">
                         <dt class="text-sm font-medium text-gray-500">Toplam Sipariş</dt>
-                        <dd class="text-2xl font-bold text-gray-900">@Model.Count</dd>
+                        <dd class="text-2xl font-bold text-gray-900">@(Model?.Count ?? 0)</dd>
                     </div>
                 </div>
             </div>
@@ -67,7 +83,7 @@
                     </div>
                     <div class="ml-4">
                         <dt class="text-sm font-medium text-gray-500">Toplam Ürün</dt>
-                        <dd class="text-2xl font-bold text-gray-900">@Model.Sum(o => o.TotalQuantity)</dd>
+                        <dd class="text-2xl font-bold text-gray-900">@(Model?.Sum(o => o.TotalQuantity) ?? 0)</dd>
                     </div>
                 </div>
             </div>
@@ -81,49 +97,232 @@
                     </div>
                     <div class="ml-4">
                         <dt class="text-sm font-medium text-gray-500">Toplam Alıcı</dt>
-                        <dd class="text-2xl font-bold text-gray-900">@Model.Select(o => o.BuyerId).Distinct().Count()</dd>
+                        <dd class="text-2xl font-bold text-gray-900">@(Model?.Select(o => o.BuyerId).Distinct().Count() ?? 0)</dd>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Search and Filter Section -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                <div class="flex-1 max-w-lg">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input type="text"
+                               id="searchInput"
+                               class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                               placeholder="Sipariş ara...">
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <button type="button"
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-filter mr-2"></i>
+                        Filtrele
+                    </button>
+                    <button type="button"
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-download mr-2"></i>
+                        Dışa Aktar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Table Card -->
         <div class="bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden">
-            <div class="px-6 py-12 text-center">
-                <div class="mx-auto max-w-md">
-                    <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-shopping-cart text-indigo-600 text-3xl"></i>
+            <!-- Table Header -->
+            <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-table text-indigo-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-900">Sipariş Listesi</h2>
+                            <p class="text-sm text-gray-600">Tüm siparişlerinizi görüntüleyin ve yönetin</p>
+                        </div>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Yeni Sipariş Oluştur</h2>
-                    <p class="text-gray-600 mb-8">
-                        Yeni bir sipariş oluşturmak için aşağıdaki butona tıklayın. Sipariş oluşturma formunda alıcı bilgilerini ve sipariş detaylarını girebilirsiniz.
-                    </p>
-                    <a asp-action="Create" 
-                       class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out transform hover:scale-105">
-                        <i class="fas fa-plus mr-3"></i>
-                        Yeni Sipariş Oluştur
-                    </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Additional Information Card -->
-        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div class="flex items-start space-x-3">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-lightbulb text-blue-500 mt-0.5"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-medium text-blue-800">Faydalı İpuçları</h3>
-                    <div class="mt-2 text-sm text-blue-700">
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>Sipariş oluştururken alıcı bilgilerini doğru girin</li>
-                            <li>Ürün miktarını stok durumuna göre belirleyin</li>
-                            <li>Birden fazla ürün ekleyebilirsiniz</li>
-                        </ul>
-                    </div>
-                </div>
+            <!-- Table Content -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200" id="orderTable">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <div class="flex items-center space-x-1">
+                                    <span>Alıcı Email</span>
+                                    <i class="fas fa-sort text-gray-400 text-xs"></i>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <div class="flex items-center space-x-1">
+                                    <span>Ürün Adı</span>
+                                    <i class="fas fa-sort text-gray-400 text-xs"></i>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <div class="flex items-center space-x-1">
+                                    <span>Miktar</span>
+                                    <i class="fas fa-sort text-gray-400 text-xs"></i>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var order in Model)
+                            {
+                                @foreach (var item in order.Items)
+                                {
+                                    <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-user text-indigo-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-semibold text-gray-900">@order.Email</div>
+                                                    <div class="text-sm text-gray-500">ID: @order.BuyerId</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-box text-gray-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-semibold text-gray-900">@item.ProductName</div>
+                                                    <div class="text-sm text-gray-500">SKU: @item.ProductId</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                    <i class="fas fa-shopping-cart mr-1 text-xs"></i>
+                                                    @item.Quantity adet
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex justify-end items-center space-x-2">
+                                                <a asp-action="Update" asp-route-id="@order.OrderId"
+                                                   class="inline-flex items-center px-3 py-2 border border-indigo-300 rounded-lg text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                                    <i class="fas fa-edit mr-1"></i>
+                                                    Düzenle
+                                                </a>
+                                                <a href="Order/Delete/@order.OrderId"
+                                                   class="inline-flex items-center px-3 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                                    <i class="fas fa-trash mr-1"></i>
+                                                    Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="px-6 py-12 text-center">
+                                    <div class="flex flex-col items-center justify-center space-y-4">
+                                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-shopping-cart text-gray-400 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-medium text-gray-900 mb-2">Sipariş bulunamadı</h3>
+                                            <p class="text-gray-500 mb-4">Henüz herhangi bir sipariş eklenmemiş. İlk siparişinizi ekleyerek başlayın.</p>
+                                            <a asp-action="Create"
+                                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <i class="fas fa-plus mr-2"></i>
+                                                İlk Siparişi Ekle
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.12/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.12/sweetalert2.min.css">
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#orderTable tbody tr');
+
+            rows.forEach(row => {
+                const productName = row.querySelector('td:nth-child(2) .text-sm.font-semibold');
+                if (productName) {
+                    const text = productName.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Delete confirmation
+        $(document).ready(function() {
+            $('a[href*="Order/Delete/"]').on('click', function(e) {
+                e.preventDefault();
+
+                const deleteUrl = $(this).attr('href');
+                const productName = $(this).closest('tr').find('td:nth-child(2) .text-sm.font-semibold').text();
+
+                Swal.fire({
+                    title: 'Silmek istediğinizden emin misiniz?',
+                    text: `"${productName}" ürünlü sipariş kalıcı olarak silinecektir!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Evet, Sil!',
+                    cancelButtonText: 'Vazgeç',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'rounded-xl shadow-2xl',
+                        title: 'text-lg font-semibold text-gray-900',
+                        htmlContainer: 'text-gray-600',
+                        confirmButton: 'rounded-lg px-6 py-2 font-medium',
+                        cancelButton: 'rounded-lg px-6 py-2 font-medium'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
+
+        // Table sorting functionality (basic)
+        document.querySelectorAll('th .fa-sort').forEach(sortIcon => {
+            sortIcon.addEventListener('click', function() {
+                // Add sorting logic here if needed
+                console.log('Sorting clicked');
+            });
+        });
+    </script>
+}

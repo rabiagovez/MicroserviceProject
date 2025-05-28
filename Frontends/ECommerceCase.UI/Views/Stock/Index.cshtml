@@ -219,12 +219,18 @@ ViewData["Title"] = "Stok Yönetimi";
                                     <i class="fas fa-edit mr-1"></i>
                                     Düzenle
                                 </a>
-                                <button type="button"
-                                        onclick="confirmDelete('@stock.ProductId', '@stock.Name')"
-                                        class="inline-flex items-center px-3 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
-                                    <i class="fas fa-trash mr-1"></i>
-                                    Sil
-                                </button>
+                                @* <button type="button" *@
+                                @*         onclick="confirmDelete('@stock.ProductId', '@stock.Name')" *@
+                                @*         class="inline-flex items-center px-3 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150"> *@
+                                @*     <i class="fas fa-trash mr-1"></i> *@
+                                @*     Sil *@
+                                @* </button> *@
+                                
+                                <a href="Stock/Delete/@stock.ProductId"
+                                    class="inline-flex items-center px-3 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                                    <i class="fas fa-trash mr-1"></i> Sil
+                                </a>
+
                             </div>
                         </td>
                     </tr>
@@ -282,101 +288,42 @@ ViewData["Title"] = "Stok Yönetimi";
         });
     });
 
-    // SweetAlert Delete confirmation
-    function confirmDelete(id, productName) {
-        Swal.fire({
-            title: 'Emin misiniz?',
-            html: `<strong>${productName}</strong> adlı ürünü silmek istediğinizden emin misiniz?<br><small class="text-gray-500">Bu işlem geri alınamaz.</small>`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DC2626',
-            cancelButtonColor: '#6B7280',
-            confirmButtonText: '<i class="fas fa-trash mr-2"></i>Evet, Sil',
-            cancelButtonText: '<i class="fas fa-times mr-2"></i>İptal',
-            customClass: {
-                popup: 'rounded-xl shadow-2xl',
-                title: 'text-xl font-bold text-gray-900',
-                htmlContainer: 'text-gray-600',
-                confirmButton: 'rounded-lg px-6 py-3 font-semibold',
-                cancelButton: 'rounded-lg px-6 py-3 font-semibold'
-            },
-            buttonsStyling: false,
-            reverseButtons: true,
-            focusConfirm: false,
-            focusCancel: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Loading state
-                Swal.fire({
-                    title: 'Siliniyor...',
-                    html: 'Ürün siliniyor, lütfen bekleyin.',
-                    icon: 'info',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    customClass: {
-                        popup: 'rounded-xl shadow-2xl'
-                    },
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
 
-                // AJAX ile silme işlemi
-                fetch(`/Stock/Delete/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Başarılı!',
-                            text: 'Ürün başarıyla silindi.',
-                            icon: 'success',
-                            confirmButtonColor: '#059669',
-                            confirmButtonText: 'Tamam',
-                            customClass: {
-                                popup: 'rounded-xl shadow-2xl',
-                                confirmButton: 'rounded-lg px-6 py-3 font-semibold'
-                            },
-                            buttonsStyling: false
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Hata!',
-                            text: data.message || 'Ürün silinirken bir hata oluştu.',
-                            icon: 'error',
-                            confirmButtonColor: '#DC2626',
-                            confirmButtonText: 'Tamam',
-                            customClass: {
-                                popup: 'rounded-xl shadow-2xl',
-                                confirmButton: 'rounded-lg px-6 py-3 font-semibold'
-                            },
-                            buttonsStyling: false
-                        });
-                    }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        title: 'Hata!',
-                        text: 'Bir hata oluştu.',
-                        icon: 'error',
-                        confirmButtonColor: '#DC2626',
-                        confirmButtonText: 'Tamam',
-                        customClass: {
-                            popup: 'rounded-xl shadow-2xl',
-                            confirmButton: 'rounded-lg px-6 py-3 font-semibold'
-                        },
-                        buttonsStyling: false
-                    });
-                });
-            }
+    // Bu kodu mevcut Scripts bölümünüze ekleyin
+
+    $(document).ready(function() {
+        // Sil butonlarına click event ekle
+        $('a[href*="Stock/Delete/"]').on('click', function(e) {
+            e.preventDefault(); // Linkin varsayılan davranışını engelle
+
+            const deleteUrl = $(this).attr('href'); // Silinecek URL'yi al
+            const productName = $(this).closest('tr').find('td:nth-child(2) .text-sm.font-semibold').text(); // Ürün adını al
+
+            Swal.fire({
+                title: 'Silmek istediğinizden emin misiniz?',
+                text: `"${productName}" adlı ürün kalıcı olarak silinecektir!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Evet, Sil!',
+                cancelButtonText: 'Vazgeç',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-xl shadow-2xl',
+                    title: 'text-lg font-semibold text-gray-900',
+                    htmlContainer: 'text-gray-600',
+                    confirmButton: 'rounded-lg px-6 py-2 font-medium',
+                    cancelButton: 'rounded-lg px-6 py-2 font-medium'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kullanıcı onayladıysa, silme işlemini gerçekleştir
+                    window.location.href = deleteUrl;
+                }
+            });
         });
-    }
+    });
 
     // Table sorting functionality (basic)
     document.querySelectorAll('th .fa-sort').forEach(sortIcon => {

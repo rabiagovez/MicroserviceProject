@@ -91,18 +91,18 @@ namespace ECommerceCase.UI.Controllers
             return RedirectToAction("Update", "Stock", new { id = model.ProductId, error = "update", message = errorContent });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        
+        public async Task<IActionResult> Delete(Guid id)
         {
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.DeleteAsync($"http://localhost:5002/api/Stock/{id}");
             
             if (responseMessage.IsSuccessStatusCode)
             {
-                return Json(new { success = true });
+                return RedirectToAction("Index","Stock");
             }
-            
-            return Json(new { success = false, message = "Silme işlemi başarısız oldu." });
+
+            return View();
         }
     }
 }

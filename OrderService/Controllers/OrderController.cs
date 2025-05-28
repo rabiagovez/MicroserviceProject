@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Application.Commands;
+using OrderService.Application.Queries;
 
 namespace OrderService.Controllers
 {
@@ -20,5 +21,12 @@ namespace OrderService.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _mediator.Send(new GetAllOrdersQuery()));
+        }
+
     }
 }

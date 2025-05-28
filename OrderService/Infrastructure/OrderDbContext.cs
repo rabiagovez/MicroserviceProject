@@ -18,5 +18,5 @@ namespace OrderService.Infrastructure
                 .WithOne(i => i.Order)
                 .HasForeignKey(i => i.OrderId);
         }
-    }
+    }                                                                                   
 }

@@ -28,10 +28,11 @@ namespace OrderService.Application.Handlers
                 var order = new Order
                 {
                     BuyerId = request.BuyerId,
+                    Email = request.Email,
                     OrderItems = request.Items.Select(i => new OrderItem
                     {
                         ProductId = i.ProductId,
-                        ProductName = "", // opsiyonel alan
+                        ProductName = i.ProductName,
                         Quantity = i.Quantity
                     }).ToList()
                 };
