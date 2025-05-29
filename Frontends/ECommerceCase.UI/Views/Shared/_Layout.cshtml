@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="~/js/notifications.js"></script>
 
     <style>
         /* Custom animations and effects */
@@ -178,6 +179,62 @@
 
     <!-- Main Content -->
     <main class="flex-1" role="main">
+        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index")
+        {
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Hoş Geldiniz 👋</h1>
+                            <p class="mt-2 text-gray-600">E-ticaret yönetim panelinize hoş geldiniz. İşletmenizi yönetmeye başlayın.</p>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-store text-white text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Siparişler</h3>
+                                    <p class="text-sm text-gray-600">Son 24 saatte 12 yeni sipariş</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-boxes text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Stok</h3>
+                                    <p class="text-sm text-gray-600">5 ürün stokta azalıyor</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-purple-50 rounded-xl p-6 border border-purple-100">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Satışlar</h3>
+                                    <p class="text-sm text-gray-600">Bu ay %15 artış</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         @RenderBody()
     </main>
 

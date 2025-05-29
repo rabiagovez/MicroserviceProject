@@ -51,6 +51,19 @@ namespace ECommerceCase.UI.Controllers
             var responseMessage = await client.PostAsync("http://localhost:5002/api/Stock", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
+                // Create notification for new stock
+                var notificationData = new
+                {
+                    BuyerId = "SYSTEM",
+                    OrderId = Guid.NewGuid(),
+                    Message = $"Yeni stok eklendi: {model.Name} ({model.Stock} adet)",
+                    CreatedAt = DateTime.UtcNow
+                };
+                
+                var notificationJson = JsonConvert.SerializeObject(notificationData);
+                var notificationContent = new StringContent(notificationJson, Encoding.UTF8, "application/json");
+                await client.PostAsync("http://localhost:5003/api/Notification", notificationContent);
+                
                 return RedirectToAction("Index", "Stock");
             }
 
@@ -84,6 +97,19 @@ namespace ECommerceCase.UI.Controllers
             
             if (responseMessage.IsSuccessStatusCode)
             {
+                // Create notification for stock update
+                var notificationData = new
+                {
+                    BuyerId = "SYSTEM",
+                    OrderId = Guid.NewGuid(),
+                    Message = $"Stok güncellendi: {model.Name} ({model.Stock} adet)",
+                    CreatedAt = DateTime.UtcNow
+                };
+                
+                var notificationJson = JsonConvert.SerializeObject(notificationData);
+                var notificationContent = new StringContent(notificationJson, Encoding.UTF8, "application/json");
+                await client.PostAsync("http://localhost:5003/api/Notification", notificationContent);
+                
                 return RedirectToAction("Index", "Stock", new { success = "updated" });
             }
             

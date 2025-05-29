@@ -37,7 +37,9 @@
                 {
                     foreach (var notification in Model.OrderByDescending(n => n.CreatedAt))
                     {
-                        <div class="p-6 hover:bg-gray-50 transition duration-150 ease-in-out">
+                        <div class="p-6 hover:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+                             data-notification-id="@notification.Id"
+                             onclick="markNotificationAsRead('@notification.Id')">
                             <div class="flex items-start space-x-4">
                                 <div class="flex-shrink-0">
                                     <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-100">
@@ -69,4 +71,8 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+@section Scripts {
+    <script src="~/js/notifications.js"></script>
+} 
